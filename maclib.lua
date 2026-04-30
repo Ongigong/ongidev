@@ -1989,15 +1989,15 @@ function MacLib:Window(Settings)
 							posXScale = math.clamp((input.Position.X - sliderBar.AbsolutePosition.X) / sliderBar.AbsoluteSize.X, 0, 1)
 						else
 							local value = val
-							posXScale = (value - SliderFunctions.Settings.Minimum) / (SliderFunctions.Settings.Maximum - Settings.Minimum)
+							posXScale = (value - SliderFunctions.Settings.Minimum) / (SliderFunctions.Settings.Maximum - SliderFunctions.Settings.Minimum)
 						end
 
 						local pos = UDim2.new(posXScale, 0, 0.5, 0)
 						sliderHead.Position = pos
 
-						finalValue = posXScale * (SliderFunctions.Settings.Maximum - SliderFunctions.Settings.Minimum) + Settings.Minimum
+						finalValue = posXScale * (SliderFunctions.Settings.Maximum - SliderFunctions.Settings.Minimum) + SliderFunctions.Settings.Minimum
 
-						sliderValue.Text = (Settings.Prefix or "") .. ValueDisplayMethod(finalValue, SliderFunctions.Settings.Precision) .. (Settings.Suffix or "")
+						sliderValue.Text = (SliderFunctions.Settings.Prefix or "") .. ValueDisplayMethod(finalValue, SliderFunctions.Settings.Precision) .. (SliderFunctions.Settings.Suffix or "")
 
 						if not ignorecallback then
 							task.spawn(function()
@@ -2043,8 +2043,7 @@ function MacLib:Window(Settings)
 							local newValue = math.clamp(value, SliderFunctions.Settings.Minimum, SliderFunctions.Settings.Maximum)
 							SetValue(newValue)
 						else
-							sliderValue.Text = ValueDisplayMethod(sliderValue)
-						end
+						sliderValue.Text = (SliderFunctions.Settings.Prefix or "") .. ValueDisplayMethod(finalValue, SliderFunctions.Settings.Precision) .. (SliderFunctions.Settings.Suffix or "")
 
 						if SliderFunctions.Settings.onInputComplete then
 							SliderFunctions.Settings.onInputComplete(finalValue)
@@ -2073,7 +2072,7 @@ function MacLib:Window(Settings)
 					section:GetPropertyChangedSignal("AbsoluteSize"):Connect(updateSliderBarSize)
 
 					function SliderFunctions:UpdateName(Name)
-						sliderName = Name
+						sliderName.Text = Name
 					end
 					function SliderFunctions:SetVisibility(State)
 						slider.Visible = State
